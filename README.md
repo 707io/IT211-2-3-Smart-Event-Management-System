@@ -13,10 +13,10 @@ The Smart Event Management System is a software project designed to help organiz
 | Member | Role |
 |---|---|
 | Austine Luise De Los Santos | Project Manager |
-| Zyronnn C. Jetomo | UI/UX Designer/ Lead Develpoer|
-| Jeric D. Fundano | Front End Developer |
+| Zyronnn C. Jetomo | UI/UX Designer / Lead Develpoer|
+| Jeric D. Fundano | Front End Developer / Backend Developer|
 | Mira Maximo | Documentation |
-| Josh Quiambao | Quality Assurance/ Backend Developer|
+| Josh Quiambao | Quality Assurance |
 
 ## Repository Structure
 
