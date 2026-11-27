@@ -1,0 +1,3 @@
+# Task 2.04 — Updated class diagram
+
+Source: Task_2.03_Console_Workflow.zip, src/main/java. Includes 17 model and 3 application classes. Blue headers identify application classes. Dashed arrows denote dependencies; hollow triangles denote inheritance. Solid arrows denote navigable associations. Model associations retained from Task 1.07. Constructors and non-private declared methods shown; implicit constructors, private helper methods, nested classes, enum boxes and test classes omitted. Static main is shown without underline. Multiplicities are design-level interpretations, not proof of database constraints. GitHub commit and repository comparison remain pending.
