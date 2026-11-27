@@ -1,0 +1,123 @@
+Task 2.05 - Local execution against Task 2.03 source
+openjdk version "21.0.12.1" 2026-08-18
+OpenJDK Runtime Environment (build 21.0.12.1+1-1-deb13u1-Debian)
+OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-deb13u1-Debian, mixed mode, sharing)
+Core class tests
+  PASS  UserAccount: login and logout
+  PASS  Administrator: publishing permission
+  PASS  EventStaff: role update
+  PASS  RegisteredGuest: eligibility
+  PASS  Venue: capacity update
+  PASS  Event: start
+  PASS  EventRegistration: cancellation
+  PASS  QRPass: revoke
+  PASS  AttendanceRecord: check-in and checkout
+  PASS  OccupancyMonitor: capacity accounting
+  PASS  Photo: publish and hide
+  PASS  PhotoGallery: published filtering
+  PASS  PhotoModeration: approval
+  PASS  FinalAlbum: authorized publication
+  PASS  Notification: failed delivery and retry
+  PASS  EventReport: update metrics
+  PASS  AuditLog: record and search
+  PASS  Invalid credentials
+  PASS  Invalid staff role
+  PASS  Invalid venue capacity
+  PASS  Invalid photo ID
+  PASS  Invalid album permission
+  PASS  Invalid notification message
+  PASS  Invalid report metrics
+  PASS  Invalid audit action
+Passed: 25, Failed: 0
+Existing validation suite
+Basic input validations
+  PASS  empty event name is rejected
+  PASS  zero venue capacity is rejected
+  PASS  negative venue capacity is rejected
+  PASS  missing event date is rejected
+  PASS  end time before start time is rejected
+  PASS  invalid occupancy warning threshold is rejected
+  PASS  invalid (pending/cancelled) registration status cannot check in
+Check-in / check-out validations
+  PASS  valid check-in increases occupancy
+  PASS  duplicate active check-in for the same registration is rejected
+  PASS  check-in when venue is full is rejected
+  PASS  check-out before check-in is rejected
+  PASS  check-out time earlier than check-in time is rejected
+  PASS  duplicate check-out is rejected
+Issue #2 - re-entry policy
+  PASS  re-entry is rejected when reEntryAllowed = false
+  PASS  re-entry is allowed when reEntryAllowed = true (new record per visit)
+  PASS  re-entry policy cannot be dodged with a second registration of the same guest
+Issue #3 - QR pass validation
+  PASS  QR entry with missing pass is rejected
+  PASS  QR entry with revoked pass is rejected
+  PASS  QR entry with expired pass is rejected
+  PASS  QR entry with another guest's pass is rejected
+  PASS  QR entry with a pass for a different event is rejected
+  PASS  QR entry with a valid pass succeeds
+  PASS  QRPass.validate compares events by id, not by object reference
+Issue #4 - event status
+  PASS  check-in before the event has started is rejected
+  PASS  check-in after the event was closed is rejected
+  PASS  check-in after the scheduled end time is rejected
+  PASS  check-in to a cancelled event is rejected
+  PASS  guests can still check out after the event has ended
+Issue #5 - capacity enforcement
+  PASS  lowering capacity below current occupancy is rejected (via monitor)
+  PASS  lowering capacity below current occupancy is rejected (directly on Venue)
+  PASS  capacity can be lowered again after guests check out
+  PASS  attendance correction that would exceed capacity is rejected and changes nothing
+  PASS  attendance correction within capacity is accepted
+  PASS  correction cannot create a second active record for the same guest
+  PASS  correction with check-out before check-in is rejected
+  PASS  a corrected record that is still inside keeps counting toward occupancy
+Issue #6 - duplicate registration and event isolation
+  PASS  same guest with two different registration objects cannot check in twice
+  PASS  same guest identity from a different Java object is still a duplicate
+  PASS  registration for another event cannot be checked in here
+  PASS  same guest may attend two different events (isolation)
+  PASS  attendance record of another event cannot be added to this monitor
+  PASS  adding two active records for the same guest is rejected
+  PASS  adding a different record that reuses an existing record id is rejected
+  PASS  monitor rejects a venue that is not the event's venue
+Remaining #1 - AttendanceRecord cannot be changed behind OccupancyMonitor's back
+  PASS  AttendanceRecord.checkIn is not public
+  PASS  AttendanceRecord.checkOut is not public
+  PASS  AttendanceRecord.correctAttendance is not public
+  PASS  AttendanceRecord exposes no public method that changes state
+  PASS  record state changes only through the monitor and keeps occupancy consistent
+Remaining #2 - Event.updateDetails validates before assigning
+  PASS  valid update changes every field
+  PASS  rejected updateDetails (blank name) leaves the event unchanged
+  PASS  rejected updateDetails (null name) leaves the event unchanged
+  PASS  rejected updateDetails (null date) leaves the event unchanged
+  PASS  rejected updateDetails (null start time) leaves the event unchanged
+  PASS  rejected updateDetails (null end time) leaves the event unchanged
+  PASS  rejected updateDetails (end before start) leaves the event unchanged
+  PASS  rejected updateDetails (end equal to start) leaves the event unchanged
+  PASS  event stays usable after a rejected update (end time still after start time)
+Remaining #3 - no check-in before the scheduled start time
+  PASS  check-in one minute before the start time is rejected (event already OPEN)
+  PASS  QR check-in before the start time is rejected
+  PASS  check-in on the day before the event is rejected
+  PASS  check-in exactly at the start time is accepted
+  PASS  a rejected early check-in does not block a valid check-in afterwards
+  PASS  correction cannot move a check-in before the start time
+  PASS  a record checked in before the start time cannot be added to a monitor
+Remaining #4 - non-finite warning thresholds are rejected
+  PASS  warningThreshold NaN is rejected
+  PASS  warningThreshold Infinity is rejected
+  PASS  warningThreshold -Infinity is rejected
+  PASS  warningThreshold 0.0 is rejected
+  PASS  warningThreshold -0.0 is rejected
+  PASS  warningThreshold -0.5 is rejected
+  PASS  warningThreshold 1.0000001 is rejected
+  PASS  a rejected threshold leaves the venue free to change capacity
+  PASS  boundary thresholds 1.0 and 0.5 are accepted and drive isNearCapacity
+  PASS  duplicate monitor rejected
+  PASS  venue update is atomic
+  PASS  profile update is atomic
+  PASS  monitored event cannot change venue
+
+Passed: 78, Failed: 0
